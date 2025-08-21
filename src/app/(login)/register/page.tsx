@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { user } from '@/models/user';
-import api from "@/utils/axios";
 import axios from 'axios';
 
 

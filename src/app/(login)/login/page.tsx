@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
-import Dashboard from '@/app/dashboard/page';
-
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
@@ -117,7 +115,6 @@ export default function Login() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-center"
-            href='/dashboard'
             >
               Sign in
               <ArrowRight size={18} className="ml-2" />

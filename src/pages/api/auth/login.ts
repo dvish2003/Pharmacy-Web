@@ -30,9 +30,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = signToken({ id: user.id, email: user.email });
+    const token = signToken({ id: user.user_id, email: user.email });
 
-    res.status(200).json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    res.status(200).json({ token, user: { id: user.user_id, name: user.name, email: user.email } });
    }catch (error) {
        console.error('Login error:', error);
        res.status(500).json({ message: 'Internal Server Error' });
