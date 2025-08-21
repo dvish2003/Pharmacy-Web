@@ -59,7 +59,7 @@ export default function Register() {
     }
     
 
-const res = await axios.post('/api/auth/register', {
+const res = await axios.post('https://pharmacy-taupe.vercel.app/api/auth/register', {
   email: formData.email,
   name: formData.name,
   password: formData.password,
