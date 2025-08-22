@@ -1,9 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
-import Dashboard from '@/app/dashboard/page';
-
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react'; 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
