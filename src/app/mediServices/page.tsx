@@ -53,7 +53,7 @@ export default function Service() {
       </div>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-        {services.map((service, index) => (
+        {services.map((service) => (
           <motion.div
             key={service.id}
             className='border border-gray-200 p-6 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col'>

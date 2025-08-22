@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Logo from "./ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
