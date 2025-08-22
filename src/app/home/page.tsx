@@ -3,9 +3,14 @@ import React from 'react';
 import Image from "next/image";
 import Button from '@/components/ui/Button';
 import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
+import Articles from '../article/page';
+import FeatureProducts from '../featureProducts/page';
+import Service from '../mediServices/page';
 
 export default function Hero() {
   return (
+ <>
     <section className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20'>
       <div className='flex flex-col md:flex-row items-center gap-8'>
         {/* Left side - Content */}
@@ -51,5 +56,10 @@ export default function Hero() {
       <br />
       
     </section>
+     <Service />
+          <FeatureProducts />
+          <Articles />
+          <Footer />
+ </>
   );
 }
