@@ -11,11 +11,11 @@ function Navbar() {
   const [auth, setIsAuth] = useState(false);
 
   const navList = [
-    { name: "Home", href: "#" },
-    { name: "Products", href: "#" },
-    { name: "Service", href: "#" },
-    { name: "Prescription", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Home", href: "/home" },
+    { name: "Service", href: "/mediServices" },
+    { name: "Product", href: "/featureProducts" },
+    { name: "Prescription", href: "/article" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const dashBoardNavList = [
