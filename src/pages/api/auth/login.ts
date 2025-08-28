@@ -1,40 +1,47 @@
-// import { NextApiRequest,NextApiResponse } from "next";
-// import {prisma} from "@/lib/prisma";
-// import bcrypt from 'bcrypt'
-// import { signToken } from "@/lib/jwt";
+import { NextApiRequest,NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
+import { em } from "framer-motion/client";
 
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//    try{
-//      if(req.method !== 'POST'){
-//         return res.status(405).json({ message: 'Method Not Allowed' });
-//     }
+
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+   console.log("Incoming request:....................................................", req.body);
+    try{
+     if(req.method !== 'POST'){
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
     
-//     const { email, password } = req.body;
+    const { email, password } = req.body;
     
-//     if(!email || !password) {
-//         return res.status(400).json({ message: 'Email and password are required' });
-//     }
+    if(!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
 
-//     const user = await prisma.user.findUnique({
-//         where: {
-//             email: email
-//         }
-//     })
+   const response = await fetch("http://localhost:4000/api/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({email, password}),
+        });
 
-//     if (!user) {
-//         return res.status(404).json({ message: 'User not found' });
-//     }
+        if(response.status !== 200) {
+            return res.status(response.status).json({ messag:'Login failed' });
+        }
 
-//     const isValidPassword = await bcrypt.compare(password, user.password);
-//     if (!isValidPassword) {
-//         return res.status(401).json({ message: 'Invalid password' });
-//     }
 
-//     const token = signToken({ id: user.user_id, email: user.email });
+        //genarate token jwt 
+        const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1d" });
+       return res.status(200).json({ message: 'Login successful', token:token , email:email });
 
-//     res.status(200).json({ token, user: { id: user.user_id, name: user.name, email: user.email } });
-//    }catch (error) {
-//        console.error('Login error:', error);
-//        res.status(500).json({ message: 'Internal Server Error' });
-//    }
-// }
+
+         
+
+   console.log('Login response:.....................', response);
+
+   }catch (error) {
+       console.error('Login error:', error);
+       res.status(500).json({ message: 'Internal Server Error' });
+   }
+}
