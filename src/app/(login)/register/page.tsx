@@ -8,7 +8,7 @@ import axios from 'axios';
 export default function Register() {
   const [formData, setFormData] = useState({
     email: '',
-        name: '',
+    name: '',
     password: '',
     confirmPassword: ''
   });
@@ -20,7 +20,7 @@ export default function Register() {
       [name]: value
     }));
   };
-  const handleValidation = (user:user) => {
+  const handleValidation = (user: user) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(user.email)) {
       console.error('Invalid email format');
@@ -37,69 +37,68 @@ export default function Register() {
     return true;
   };
 
-  const handleSubmit =async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  try{
-     
-    const user:user = {
-      user_id: '',
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      active: true,
-      role: 'CUSTOMER',
-    
+    try {
+
+      const user: user = {
+        user_id: '',
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        active: true,
+        role: 'CUSTOMER',
+
+      }
+      const isValid = handleValidation(user);
+
+
+      if (!isValid) {
+        alert('Validation failed Please Enter valid details');
+        return;
+      }
+
+
+      const res = await axios.post('/api/auth/register', {
+        email: formData.email,
+        name: formData.name,
+        password: formData.password,
+        active: true,
+        role: 'CUSTOMER'
+      });
+
+
+
+      if (res.status === 201) {
+        alert('Registration successful!');
+        setFormData({ email: '', name: '', password: '', confirmPassword: '' });
+        window.location.href = '/login';
+      }
+      if (res.status === 400) {
+        alert('User Already exist');
+      }
+    } catch (error) {
+      alert('Registration failed. Please try again.');
     }
-    const isValid = handleValidation(user);
-
-
-    if(!isValid) {
-      alert('Validation failed Please Enter valid details');
-      return;
-    }
-    
-
-const res = await axios.post('https://pharmacy-taupe.vercel.app/api/auth/register', {
-  email: formData.email,
-  name: formData.name,
-  password: formData.password,
-  role: 'CUSTOMER'
-});
-
-
-console.log('.................................2');
-
-
-
-    if (res.status === 201) {
-     alert('Registration successful!');
-   } else {
-    
-     alert('Registration failed. Please try again.');
-   }
-  }catch(error){
-    console.error('Registration error:', error);
-    alert('Registration failed. Please try again.');
-  }
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <motion.div 
+    <section className="flex items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h1>
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">Create Account</h1>
           <p className="text-gray-600">Join us and access exclusive features</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="p-8 bg-white shadow-xl rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700">
                 Full Name
               </label>
               <input
@@ -109,13 +108,13 @@ console.log('.................................2');
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">
                 Email Address
               </label>
               <input
@@ -125,13 +124,13 @@ console.log('.................................2');
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -141,13 +140,13 @@ console.log('.................................2');
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Create a password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="confirm-password" className="block mb-1 text-sm font-medium text-gray-700">
                 Confirm Password
               </label>
               <input
@@ -157,7 +156,7 @@ console.log('.................................2');
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm your password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -167,10 +166,10 @@ console.log('.................................2');
                 id="terms"
                 name="terms"
                 type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 required
               />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+              <label htmlFor="terms" className="block ml-2 text-sm text-gray-700">
                 I agree to the <a href="#" className="text-blue-600 hover:text-blue-800">Terms and Conditions</a>
               </label>
             </div>
@@ -179,7 +178,7 @@ console.log('.................................2');
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Create Account
             </motion.button>
@@ -195,7 +194,7 @@ console.log('.................................2');
           </div>
         </div>
 
-        <div className="mt-8 text-center text-xs text-gray-500">
+        <div className="mt-8 text-xs text-center text-gray-500">
           <p>By registering, you agree to our Privacy Policy and Cookie Policy.</p>
         </div>
       </motion.div>

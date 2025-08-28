@@ -1,52 +1,40 @@
-// import { NextApiRequest, NextApiResponse } from "next";
-// import { prisma } from "@/lib/prisma";
-// import bcrypt from "bcrypt";
+import { NextApiRequest, NextApiResponse } from "next";
 
-// export default async function registerAPI(req: NextApiRequest, res: NextApiResponse) {
-//   console.log("Register API called...");
 
-//   try {
-//     if (req.method !== "POST") {
-//       return res.status(405).json({ message: "Method Not Allowed" });
-//     }
+export default async function registerAPI(req: NextApiRequest, res: NextApiResponse) {
+    console.log("Register API called...");
 
-//     const { email, name, password, role } = req.body;
+    try {
+        if (req.method !== "POST") {
+            return res.status(405).json({ message: "Method Not Allowed" });
+        }
 
-//     if (!email || !password || !name || !role) {
-//       return res.status(400).json({ message: "All fields are required" });
-//     }
+        const { email, name, password, active, role } = req.body;
 
-//     const existUser = await prisma.user.findUnique({
-//       where: { email }
-//     });
+        if (!email || !password || !name || !role) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
 
-//     if (existUser) {
-//       return res.status(409).json({ message: "User already exists" });
-//     }
+        const response = await fetch("http://localhost:4000/api/user/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, name, password, active, role }),
+        });
 
-//     const hashPassword = await bcrypt.hash(password, 10);
+        console.log("Response from user registration API:", response);
+        if (response.status === 201) {
+            return res.status(201).json({
+                message: "User registered successfully",
+            });
+        } else {
+            return res.status(400).json({ message: "User Already exists" });
+        }
 
-//     const newUser = await prisma.user.create({
-//       data: {
-//         email,
-//         name,
-//         password: hashPassword,
-//         active: true,
-//         role
-//       }
-//     });
 
-//     return res.status(201).json({
-//       message: "User registered successfully",
-//       user: {
-//         id: newUser.user_id,
-//         name: newUser.name,
-//         email: newUser.email,
-//         role: newUser.role
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     return res.status(500).json({ message: "Internal Server Error" });
-//   }
-// }
+    } catch (error) {
+        console.error("Registration error:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
