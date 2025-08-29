@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
 import axios from 'axios';
+import { setAuth, setToken } from '@/util/cookies';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -32,7 +33,8 @@ try{
 
       if(res.status === 200){
         const token = (res.data as { token: string }).token;
-        localStorage.setItem('token', token);
+        setToken(token);
+        setAuth(true);
         localStorage.setItem('email', formData.email);
         alert('Login successful!');
         window.location.href = '/dashboard';

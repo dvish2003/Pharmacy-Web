@@ -4,19 +4,29 @@ import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from "./ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
+import { getToken, removeToken, setAuth } from "@/util/cookies";
 
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [auth, setIsAuth] = useState(false);
+      const [auth, setIsAuth] = useState(false);
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setIsAuth(true);
+    } else {
+      setIsAuth(false);
+    }
+  }, []); 
 
   const navList = [
     { name: "Home", href: "/home" },
     { name: "Service", href: "/mediServices" },
     { name: "Product", href: "/featureProducts" },
     { name: "Prescription", href: "/article" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/dashboard" },
+    
   ];
 
   const dashBoardNavList = [
@@ -33,16 +43,12 @@ function Navbar() {
       href: "#",
     },
     {
-      name: "Orders",
+      name: "My Orders",
       href: "#",
     },
 
     {
-      name: "Profile",
-      href: "#",
-    },
-    {
-      name: "Settings",
+      name: "Account",
       href: "#",
     },
   ];
@@ -63,7 +69,7 @@ function Navbar() {
           : "bg-transparent  text-gray-800 backdrop-blur-2xl"
       }`}
     >
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
         <div>
           <Logo />
@@ -77,7 +83,7 @@ function Navbar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="hover:text-purple-600 transition-colors duration-200"
+                    className="transition-colors duration-200 hover:bg-purple-100 hover:text-purple-600"
                   >
                     {item.name}
                   </Link>
@@ -89,7 +95,7 @@ function Navbar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="hover:text-purple-600 transition-colors duration-200"
+                    className="transition-colors duration-200 hover:text-purple-600"
                   >
                     {item.name}
                   </Link>
@@ -100,11 +106,11 @@ function Navbar() {
 
         {/* Right Side */}
         <div className="flex items-center space-x-6">
-          <div className="hidden md:flex space-x-3">
+          <div className="hidden space-x-3 md:flex">
             {!auth && (
               <Link
                 href="/login"
-                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+                className="px-4 py-2 text-white transition bg-purple-600 rounded-lg hover:bg-purple-700"
               >
                 Login
               </Link>
@@ -112,7 +118,7 @@ function Navbar() {
             {!auth && (
               <Link
                 href="/register"
-                className="border border-purple-600 text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition"
+                className="px-4 py-2 text-purple-600 transition border border-purple-600 rounded-lg hover:bg-purple-600 hover:text-white"
               >
                 Register
               </Link>
@@ -121,8 +127,10 @@ function Navbar() {
             {auth && (
               <Link
                 href="/"
-                onClick={() => setIsAuth(false)} // ✅ Log out and close menu
-                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+                onClick={() => {setIsAuth(false); 
+                   setAuth(false);
+                    removeToken();  }}
+                className="px-4 py-2 text-white transition bg-purple-600 rounded-lg hover:bg-purple-700"
               >
                 Log Out
               </Link>
@@ -143,7 +151,7 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-white shadow-lg px-6 py-4 space-y-4"
+            className="px-6 py-4 space-y-4 bg-white shadow-lg md:hidden"
           >
             <ul className="flex flex-col space-y-3 text-[17px] font-medium text-gray-800">
               {!auth &&
@@ -152,7 +160,7 @@ function Navbar() {
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)} // ✅ Close menu on click
-                      className="block hover:text-purple-600 transition-colors"
+                      className="block transition-colors hover:text-purple-600"
                     >
                       {item.name}
                     </Link>
@@ -164,19 +172,19 @@ function Navbar() {
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)} // ✅ Close menu on click
-                      className="block hover:text-purple-600 transition-colors"
+                      className="block transition-colors hover:text-purple-600"
                     >
                       {item.name}
                     </Link>
                   </li>
                 ))}
             </ul>
-            <div className="flex flex-col space-y-3 pt-4">
+            <div className="flex flex-col pt-4 space-y-3">
               {!auth && (
                 <Link
                   href="/login"
                   onClick={() => setIsOpen(false)}
-                  className="bg-purple-600 rounded-md px-4 py-2 text-white text-center hover:bg-purple-700 transition"
+                  className="px-4 py-2 text-center text-white transition bg-purple-600 rounded-md hover:bg-purple-700"
                 >
                   Login
                 </Link>
@@ -185,7 +193,7 @@ function Navbar() {
                 <Link
                   href="/register"
                   onClick={() => setIsOpen(false)}
-                  className="border border-purple-600 rounded-md px-4 py-2 text-purple-600 text-center hover:bg-purple-600 hover:text-white transition"
+                  className="px-4 py-2 text-center text-purple-600 transition border border-purple-600 rounded-md hover:bg-purple-600 hover:text-white"
                 >
                   Register
                 </Link>
@@ -196,8 +204,10 @@ function Navbar() {
                   onClick={() => {
                     setIsOpen(false);
                     setIsAuth(false);
+                    setAuth(false);
+                    removeToken();  
                   }} // ✅ Close menu on click
-                  className="bg-purple-600 rounded-md px-4 py-2 text-white text-center hover:bg-purple-700 transition"
+                  className="px-4 py-2 text-center text-white transition bg-purple-600 rounded-md hover:bg-purple-700"
                 >
                   Log Out
                 </Link>
