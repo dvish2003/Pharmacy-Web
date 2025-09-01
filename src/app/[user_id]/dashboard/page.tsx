@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useState } from 'react'
+import React, { use } from 'react'
 import Image from 'next/image'
 interface DashboardProps {
   params: Promise<{ userId: string }>
@@ -43,12 +43,6 @@ function Dashboard({ params }: DashboardProps) {
     }
   ];
 
-  // Sample order data
-  const recentOrders = [
-    { id: '#ORD-2871', date: 'Oct 12, 2023', amount: '$29.99', status: 'Delivered' },
-    { id: '#ORD-2863', date: 'Oct 8, 2023', amount: '$64.98', status: 'Delivered' },
-    { id: '#ORD-2854', date: 'Oct 2, 2023', amount: '$24.99', status: 'Delivered' }
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
