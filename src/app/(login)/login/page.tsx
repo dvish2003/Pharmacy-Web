@@ -36,8 +36,9 @@ try{
         setToken(token);
         setAuth(true);
         localStorage.setItem('email', formData.email);
+        localStorage.setItem('id', (res.data as { user: { id: string } }).user.id);
         alert('Login successful!');
-        window.location.href = '/dashboard';
+        window.location.href = `/${(res.data as { user: { id: string } }).user.id}/dashboard`;
         setFormData({ email: '', password: '' });
       } else {
         alert('Login failed. Please check your credentials and try again.');

@@ -26,20 +26,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             body: JSON.stringify({email, password}),
         });
 
-        if(response.status !== 200) {
-            return res.status(response.status).json({ messag:'Login failed' });
-        }
+    if(response.status !== 200) {
+        return res.status(response.status).json({ messag:'Login failed' });
+    }
+
+    const responseData = await response.json();
+
+    //genarate token jwt 
+    const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1d" });
+    return res.status(200).json({ message: 'Login successful', token: token, user: responseData.user });
 
 
-        //genarate token jwt 
-        const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1d" });
-       return res.status(200).json({ message: 'Login successful', token:token , email:email });
-
-
-         
-
-   console.log('Login response:.....................', response);
-
+        
    }catch (error) {
        console.error('Login error:', error);
        res.status(500).json({ message: 'Internal Server Error' });
