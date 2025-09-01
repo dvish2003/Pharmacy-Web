@@ -1,8 +1,12 @@
 'use client'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import Image from 'next/image'
+interface DashboardProps {
+  params: Promise<{ userId: string }>
+}
 
-function Dashboard() {
+function Dashboard({ params }: DashboardProps) {
+  const { userId } = use(params);
 
   const products = [
     {
@@ -18,7 +22,7 @@ function Dashboard() {
       name: "Hyaluronic Acid Moisturizer",
       category: "Skincare",
       price: 24.99,
-      image: "/fp/product2.jpeg",
+      image: "/fp/FetureMedi_4.jpeg",
       description: "Deep hydration for all skin types"
     },
     {
@@ -26,7 +30,7 @@ function Dashboard() {
       name: "Retinol Night Cream",
       category: "Skincare",
       price: 34.99,
-      image: "/fp/product3.jpeg",
+      image: "/fp/FetureMedi_4.jpeg",
       description: "Anti-aging treatment for renewed skin"
     },
     {
@@ -34,7 +38,7 @@ function Dashboard() {
       name: "Niacinamide Serum",
       category: "Skincare",
       price: 27.99,
-      image: "/fp/product4.jpeg",
+      image: "/fp/FetureMedi_4.jpeg",
       description: "Pore refining and oil control solution"
     }
   ];
@@ -51,7 +55,7 @@ function Dashboard() {
       <main className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Welcome Section */}
         <div className="p-6 mb-8 text-white shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl">
-          <h2 className="mb-2 text-2xl font-bold">Welcome back, Jessica!</h2>
+        <h2 className="mb-2 text-2xl font-bold">Welcome back, user : ${userId}</h2>
           <p className="opacity-90">We have new products that you might like. Check them out!</p>
         </div>
 
